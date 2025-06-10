@@ -1,4 +1,4 @@
-# INSTALLING AND CONFIGURING OF WORDPRESS, NGINX, MARIADB, PHPMYADMIN, PHP, CLOUDFLARED TUNNEL IN LINUX.
+# Installing And Configuring Of Wordpress, NGINX, MARIADB, PHPmyadmin, PHP, CloudFlared Tunnel In Linux.
 
 ---
 
