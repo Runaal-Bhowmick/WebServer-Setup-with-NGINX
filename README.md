@@ -132,7 +132,7 @@ sudo systemctl restart nginx
 
 ## **7. Increase Max File Upload Limit to 10GB**
 
-To allow large uploads (up to 10 GB), modify PHP and Nginx configuration.
+To allow large uploads (up to 10 GB), modify PHP configuration.
 
 ### Step 1: Edit `php.ini` for PHP-FPM
 ```bash
@@ -146,10 +146,10 @@ sudo nano /etc/php/8.2/fpm/php.ini
 - Search for: `max_execution_time` → change to `3600`
 - Search for: `max_input_time` → change to `3600`
 
-### Step 3: Restart PHP-FPM and Nginx
+### Step 3: Restart PHP-FPM and Nginx   **[END OF PROCESS TO HOST ANOTHER WORDPRESS WEBSITE]**
 ```bash
 sudo systemctl restart php8.2-fpm
-sudo systemctl reload nginx                     # [END OF PROCESS TO HOST ANOTHER WORDPRESS WEBSITE]
+sudo systemctl reload nginx                     
 ```
 
 ---
