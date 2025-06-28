@@ -43,7 +43,7 @@ EXIT;
 
 ---
 
-## **4. Install PHP and phpMyAdmin**
+## **4. Install PHP and phpMyAdmin**          **[SKIP  STEP 4 IF HOSTING ANOTHER WORDPRESS WEBSITE]**
 ```bash
 sudo apt install php-fpm php-mysql
 sudo apt install phpmyadmin
@@ -86,6 +86,7 @@ upstream <WEBSITE NAME>-php-handler {
 }
 
 server {
+    client_max_body_size 10240M; #10240M = 10.24 GB
     listen 80;
     server_name <WEBSITE DOMAIN>;
 
@@ -115,6 +116,8 @@ server {
             root /usr/share/;
         }
     }
+
+    
 }
 ```
 
@@ -122,12 +125,36 @@ server {
 ```bash
 sudo ln -s /etc/nginx/sites-available/<WEBSITE NAME> /etc/nginx/sites-enabled/
 sudo nginx -t
-sudo systemctl restart nginx     # [END OF PROCESS TO HOST ANOTHER WORDPRESS WEBSITE]
+sudo systemctl restart nginx     
 ```
 
 ---
 
-## **7. Install and Configure Cloudflared Tunnel [OPTIONAL]**
+## **7. Increase Max File Upload Limit to 10GB**
+
+To allow large uploads (up to 10 GB), modify PHP and Nginx configuration.
+
+### Step 1: Edit `php.ini` for PHP-FPM
+```bash
+sudo nano /etc/php/8.2/fpm/php.ini
+```
+
+### In the file, search using `Ctrl + W` in nano:
+- Search for: `upload_max_filesize` → change to `10240M`
+- Search for: `post_max_size` → change to `10240M`
+- Search for: `memory_limit` → change to `10240M`
+- Search for: `max_execution_time` → change to `3600`
+- Search for: `max_input_time` → change to `3600`
+
+### Step 3: Restart PHP-FPM and Nginx
+```bash
+sudo systemctl restart php8.2-fpm
+sudo systemctl reload nginx                     # [END OF PROCESS TO HOST ANOTHER WORDPRESS WEBSITE]
+```
+
+---
+
+## **8. Install and Configure Cloudflared Tunnel [OPTIONAL]**
 
 ### Add Cloudflare GPG key
 ```bash
@@ -157,7 +184,7 @@ cloudflared tunnel run --token <TOKEN NUMBER>
 
 ---
 
-## **8. Complete WordPress Installation via Web Interface**
+## **9. Complete WordPress Installation via Web Interface**
 
 - Go to: `<WEBSITE DOMAIN>`
 - Use the following database credentials:
