@@ -70,7 +70,7 @@ sudo nano wp-config.php
 ```
 
 - Change the **Database Name**, **User Name**, and **Password**.
-- Add salts from: [https://api.wordpress.org/secret-key/1.1/salt/](https://api.wordpress.org/secret-key/1.1/salt/)
+- Add salts from: [Wordpress Salts Download](https://api.wordpress.org/secret-key/1.1/salt/)
 
 ---
 
@@ -178,9 +178,63 @@ sudo cloudflared service install <TOKEN NUMBER>
 ```
 
 ### Run the Cloudflare Tunnel
+
+
+### ✅ Enable Cloudflared Tunnel to Auto-Start on Boot
+
+If you’ve already installed the Cloudflare Tunnel service using a token, but it doesn’t auto-start after reboot, follow these steps:
+
+#### **Step 1: Verify the systemd service file**
+Check if the service file exists:
 ```bash
-cloudflared tunnel run --token <TOKEN NUMBER>
+sudo nano /etc/systemd/system/cloudflared.service
 ```
+
+It should look like this (adjust the path/token if needed):
+
+```ini
+[Unit]
+Description=cloudflared
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+TimeoutStartSec=0
+Type=notify
+ExecStart=/usr/bin/cloudflared --no-autoupdate tunnel run --token <TOKEN NUMBER>
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
+```
+
+#### **Step 2: Reload systemd**
+```bash
+sudo systemctl daemon-reload
+```
+
+#### **Step 3: Enable the cloudflared service**
+```bash
+sudo systemctl enable cloudflared.service
+```
+
+#### **Step 4: Start the service**
+```bash
+sudo systemctl start cloudflared.service
+```
+
+#### **Step 5: Reboot and verify**
+```bash
+sudo reboot
+```
+
+Then confirm the service is running:
+```bash
+sudo systemctl status cloudflared.service
+```
+
+If everything is configured correctly, the tunnel will automatically start every time the server reboots. ✅
 
 ---
 
@@ -188,6 +242,16 @@ cloudflared tunnel run --token <TOKEN NUMBER>
 
 - Go to: `<WEBSITE DOMAIN>`
 - Use the following database credentials:
-  - **Database Name:** `<DATABASE NAME>`
   - **Username:** `<USER NAME>`
   - **Password:** `<PASSWORD>`
+
+---
+
+## **10. Install Recommended WordPress Plugin (Before Doing Anything Else)**
+
+### ✅ WPVivid: For Auto Google Drive Backups and Site Migration
+
+This plugin is highly recommended for managing site backups and performing migrations easily.
+
+- **Official WordPress Download**: [WPVivid Plugin - WordPress.org](https://wordpress.org/plugins/wpvivid-backuprestore/)
+- **Direct GDrive Download (v0.9.116)**: [Download from Google Drive](https://drive.google.com/file/d/1IMnF4h-Jf-KCZgFIy435GyHcM24pfj0Q/view?usp=drive_link)
