@@ -24,7 +24,7 @@ sudo apt install mariadb-server
 sudo systemctl start mariadb
 sudo systemctl status mariadb
 sudo systemctl enable mariadb
-sudo mysql_secure_installation   # Set root password as 'password'
+sudo mysql_secure_installation   
 ```
 
 ### Access MariaDB and run the following:  **[START FROM HERE TO HOST ANOTHER WORDPRESS WEBSITE]**
