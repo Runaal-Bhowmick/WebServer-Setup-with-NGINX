@@ -61,7 +61,7 @@ sudo mkdir <WEBSITE NAME>
 cd <WEBSITE NAME>
 sudo wget https://wordpress.org/latest.tar.gz
 sudo tar -xvzf latest.tar.gz
-sudo mv wordpress public_html   # ✅ Rename folder
+sudo mv wordpress public_html   
 sudo chown -R www-data:www-data public_html/
 sudo chmod -R 755 public_html/
 sudo rm -r latest.tar.gz
