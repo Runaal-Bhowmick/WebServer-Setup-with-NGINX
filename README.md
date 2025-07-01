@@ -61,10 +61,11 @@ sudo mkdir <WEBSITE NAME>
 cd <WEBSITE NAME>
 sudo wget https://wordpress.org/latest.tar.gz
 sudo tar -xvzf latest.tar.gz
-sudo chown -R www-data:www-data wordpress/
-sudo chmod -R 755 wordpress/
+sudo mv wordpress public_html   # ✅ Rename folder
+sudo chown -R www-data:www-data public_html/
+sudo chmod -R 755 public_html/
 sudo rm -r latest.tar.gz
-cd wordpress
+cd public_html
 sudo cp wp-config-sample.php wp-config.php
 sudo nano wp-config.php
 ```
@@ -86,11 +87,11 @@ upstream <WEBSITE NAME>-php-handler {
 }
 
 server {
-    client_max_body_size 10240M; #10240M = 10.24 GB
+    client_max_body_size 5120M; # ✅ 5GB upload limit
     listen 80;
     server_name <WEBSITE DOMAIN>;
 
-    root /var/www/<WEBSITE NAME>/wordpress;
+    root /var/www/<WEBSITE NAME>/public_html; # ✅ updated path
     index index.php index.html;
 
     location / {
@@ -116,8 +117,6 @@ server {
             root /usr/share/;
         }
     }
-
-    
 }
 ```
 
