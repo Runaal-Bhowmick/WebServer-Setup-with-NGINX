@@ -35,7 +35,7 @@ sudo mysql -u root -p
 ### Inside the MariaDB shell:
 ```sql
 CREATE DATABASE db_<WEBSITE NAME> CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-CREATE USER 'admin@<WEBSITE NAME>'@'localhost' IDENTIFIED BY '<PASSWORD>';
+CREATE USER 'admin@<WEBSITE NAME>'@'localhost' IDENTIFIED BY '<WEBSITE NAME>@<PASSWORD>';
 GRANT ALL PRIVILEGES ON db_<WEBSITE NAME>.* TO 'admin@<WEBSITE NAME>'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
