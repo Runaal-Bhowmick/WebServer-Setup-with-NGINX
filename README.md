@@ -91,7 +91,7 @@ server {
     listen 80;
     server_name <WEBSITE DOMAIN>;
 
-    root /var/www/<WEBSITE NAME>/public_html; # ✅ updated path
+    root /var/www/<WEBSITE NAME>/public_html; 
     index index.php index.html;
 
     location / {
@@ -139,9 +139,9 @@ sudo nano /etc/php/8.2/fpm/php.ini
 ```
 
 ### In the file, search using `Ctrl + W` in nano:
-- Search for: `upload_max_filesize` → change to `10240M`
-- Search for: `post_max_size` → change to `10240M`
-- Search for: `memory_limit` → change to `10240M`
+- Search for: `upload_max_filesize` → change to `5120M` # ✅ 5GB upload limit
+- Search for: `post_max_size` → change to `5120M`
+- Search for: `memory_limit` → change to `5120M`
 - Search for: `max_execution_time` → change to `3600`
 - Search for: `max_input_time` → change to `3600`
 
