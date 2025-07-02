@@ -141,7 +141,7 @@ sudo nano /etc/php/8.2/fpm/php.ini
 ### In the file, search using `Ctrl + W` in nano:
 - Search for: `upload_max_filesize` → change to `5120M` # ✅ 5GB upload limit
 - Search for: `post_max_size` → change to `5120M`
-- Search for: `memory_limit` → change to `5120M`
+- Search for: `memory_limit` → change to `1024M`  # ✅ 1GB Ram Allocated
 - Search for: `max_execution_time` → change to `3600`
 - Search for: `max_input_time` → change to `3600`
 
