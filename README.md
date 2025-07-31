@@ -245,7 +245,7 @@ If everything is configured correctly, the tunnel will automatically start every
   - **Password:** `<PASSWORD>`
 
 ---
-## 11. Post-Installation WordPress Checklist (Immediately After Setup)
+## 10. Post-Installation WordPress Checklist (Immediately After Setup)
 
 Once your WordPress site is up and running via the web interface, follow these crucial steps to prepare it for design and production use:
 
