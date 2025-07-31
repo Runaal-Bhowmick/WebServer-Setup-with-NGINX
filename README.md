@@ -245,12 +245,73 @@ If everything is configured correctly, the tunnel will automatically start every
   - **Password:** `<PASSWORD>`
 
 ---
+## 11. Post-Installation WordPress Checklist (Immediately After Setup)
 
-## **10. Install Recommended WordPress Plugin (Before Doing Anything Else)**
+Once your WordPress site is up and running via the web interface, follow these crucial steps to prepare it for design and production use:
 
-### ✅ WPVivid: For Auto Google Drive Backups and Site Migration
+---
 
-This plugin is highly recommended for managing site backups and performing migrations easily.
+### ✅ 1. Deactivate and Delete Default Plugins & Themes
 
-- **Official WordPress Download**: [WPVivid Plugin - WordPress.org](https://wordpress.org/plugins/wpvivid-backuprestore/)
-- **Direct GDrive Download (v0.9.116)**: [Download from Google Drive](https://drive.google.com/file/d/1IMnF4h-Jf-KCZgFIy435GyHcM24pfj0Q/view?usp=drive_link)
+* Go to **Plugins → Installed Plugins**
+
+  * Deactivate and delete all default plugins.
+* Go to **Appearance → Themes**
+
+  * Delete all default themes except the one you plan to use (e.g., Astra).
+
+---
+
+### ✅ 2. Install Astra Theme
+
+* Navigate to **Appearance → Themes → Add New**
+* Search for `Astra`
+* Click **Install** → **Activate**
+
+---
+
+### ✅ 3. Install Essential Plugins
+
+Go to **Plugins → Add New** and install:
+
+| Plugin Name       | Source                |
+| ----------------- | --------------------- |
+| Elementor         | WordPress Repo        |
+| Elementor Pro     | Upload manually (ZIP) |
+| Disable Gutenberg | WordPress Repo        |
+| LiteSpeed Cache   | WordPress Repo        |
+| WP Vivid Backup   | WordPress Repo        |
+| MalCare           | WordPress Repo        |
+
+* After installation, **activate all plugins**.
+* For **Elementor Pro**, go to `Plugins → Add New → Upload Plugin`, upload the `.zip` file, and activate it.
+
+---
+
+### ✅ 4. Create Homepage
+
+* Go to **Pages → Add New**
+* Title it `Homepage`
+* Publish the page
+
+---
+
+### ✅ 5. Set Homepage as Default Landing Page
+
+* Go to **Settings → Reading**
+* Set:
+
+  * **Your homepage displays:** A static page
+  * **Homepage:** `Homepage` (the one you just created)
+
+---
+
+### ✅ 6. Configure Permalinks
+
+* Go to **Settings → Permalinks**
+* Set to:
+
+  ```
+  Post name
+  ```
+* Save changes
