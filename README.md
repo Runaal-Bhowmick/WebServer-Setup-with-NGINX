@@ -315,3 +315,76 @@ Go to **Plugins → Add New** and install:
   Post name
   ```
 * Save changes
+
+---
+
+## **11. Remove an Existing WordPress Website (Complete Cleanup Guide)**
+
+Use this guide to completely remove an existing WordPress site from your Linux server, including its files, database, users, and NGINX config.
+
+---
+
+
+
+### ⚠️ Before You Begin
+
+Double-check the website name, database name, and user before proceeding. This process is permanent and cannot be undone.
+
+---
+
+
+### 🔥 Step 1: Remove WordPress Files
+
+```bash
+sudo rm -rf /var/www/<WEBSITE_NAME>
+```
+
+---
+
+### 🧾 Step 2: Delete NGINX Configuration
+
+```bash
+sudo rm /etc/nginx/sites-available/<WEBSITE_NAME>
+sudo rm /etc/nginx/sites-enabled/<WEBSITE_NAME>
+```
+
+Reload NGINX to apply the changes:
+
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+---
+
+### 💾 Step 3: Drop the Database and User from MariaDB
+
+Access the MariaDB shell:
+
+```bash
+sudo mysql -u root -p
+```
+
+Then run:
+
+```sql
+DROP DATABASE db_<WEBSITE_NAME>;
+DROP USER 'admin@<WEBSITE_NAME>'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+---
+
+### 🔄 Step 4: Restart PHP and NGINX
+
+```bash
+sudo systemctl restart php8.2-fpm
+sudo systemctl reload nginx
+```
+
+---
+
+### 🧼 Done!
+
+Your WordPress website, database, and all related configurations have been successfully removed from the server.
