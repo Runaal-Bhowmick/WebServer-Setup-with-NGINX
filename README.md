@@ -82,17 +82,22 @@ sudo nano /etc/nginx/sites-available/<WEBSITE NAME>
 
 ### Paste the following config:
 ```nginx
-upstream <WEBSITE NAME>-php-handler {
+upstream <WEBSITE_NAME>-php-handler {
     server unix:/var/run/php/php8.2-fpm.sock;
 }
 
 server {
-    listen 80;
-    server_name <WEBSITE DOMAIN>;
+    listen 443 ssl;
+    server_name <WEBSITE_DOMAIN>;
 
-    client_max_body_size 5120M; # ✅ 5GB upload limit
+    ssl_certificate /etc/ssl/certs/<WEBSITE_DOMAIN>/origin.crt;
+    ssl_certificate_key /etc/ssl/private/<WEBSITE_DOMAIN>/origin.key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
 
-    root /var/www/<WEBSITE NAME>/public_html; 
+    client_max_body_size 5120M;
+
+    root /var/www/<WEBSITE_NAME>/public_html; 
     index index.php index.html;
 
     location / {
@@ -101,7 +106,7 @@ server {
 
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass <WEBSITE NAME>-php-handler;
+        fastcgi_pass <WEBSITE_NAME>-php-handler;
     }
 
     location /phpmyadmin {
@@ -119,6 +124,12 @@ server {
         }
     }
 }
+
+server {
+    listen 80;
+    server_name <WEBSITE_DOMAIN>;
+    return 301 https://$host$request_uri;
+}
 ```
 
 ### Then run:
@@ -127,10 +138,85 @@ sudo ln -s /etc/nginx/sites-available/<WEBSITE NAME> /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx     
 ```
+## **7. Obtain and Install Cloudflare Origin Certificate (SSL) [RECOMMENDED & Secure]**
+
+Use **one certificate** for your main domain and all first-level subdomains.
 
 ---
 
-## **7. Increase Max File Upload Limit to 10GB**
+### 🔐 On Cloudflare Dashboard:
+
+1. Go to **SSL/TLS → Origin Server** for your root domain.
+2. Click **Create Certificate**.
+3. Keep Everything Default
+4. Click **Create**.
+5. Copy the **Origin Certificate** and **Private Key**.
+
+---
+
+### 🖥️ On Your Server:
+
+Create directories and install certificate files:
+
+```bash
+sudo mkdir -p /etc/ssl/certs/<WEBSITE_DOMAIN>
+sudo mkdir -p /etc/ssl/private/<WEBSITE_DOMAIN>
+
+sudo nano /etc/ssl/certs/<WEBSITE_DOMAIN>/origin.crt
+```
+Paste the Origin Certificate here
+```bash
+sudo nano /etc/ssl/private/<WEBSITE_DOMAIN>/origin.key
+```
+Paste the Private Key here
+```bash
+
+sudo chmod 600 /etc/ssl/private/<WEBSITE_DOMAIN>/origin.key
+sudo chown root:root /etc/ssl/private/<WEBSITE_DOMAIN>/origin.key
+```
+
+✅ Your SSL certificate is now installed and ready to be referenced in your NGINX site configuration!
+
+---
+## **8. Configure Tunnel Public Hostname (HTTPS Access via Cloudflare Tunnel)**
+
+Secure your local WordPress site over HTTPS using a Cloudflare Tunnel.
+
+---
+
+### ⚙️ Cloudflare Zero Trust Dashboard Setup
+
+1. Go to **Zero Trust Dashboard → Access → Tunnels**  
+2. Select your existing tunnel  
+3. Click **Add/Edit Public Hostname**
+
+---
+
+### 🔧 Fill in the Public Hostname Details:
+
+- **Service Type:** `HTTPS`   
+- **URL:**  
+  ```
+  localhost:443
+  ```
+  
+---
+
+### 🛡️ TLS Settings
+
+- Click **Additional Application Settings → TLS**
+- Enable:
+  - ✅ **No TLS Verify** (prevents self-signed cert issues)
+
+---
+
+### 💾 Save and Deploy
+
+Once saved, Cloudflare will route encrypted HTTPS traffic through your tunnel to the local server securely. ✅
+
+---
+
+## **9. Increase Max File Upload Limit to 10GB**
 
 To allow large uploads (up to 10 GB), modify PHP configuration.
 
@@ -154,7 +240,7 @@ sudo systemctl reload nginx
 
 ---
 
-## **8. Install and Configure Cloudflared Tunnel [OPTIONAL]**
+## **10. Install and Configure Cloudflared Tunnel [OPTIONAL]**
 
 ### Add Cloudflare GPG key
 ```bash
@@ -238,7 +324,7 @@ If everything is configured correctly, the tunnel will automatically start every
 
 ---
 
-## **9. Complete WordPress Installation via Web Interface**
+## **11. Complete WordPress Installation via Web Interface**
 
 - Go to: `<WEBSITE DOMAIN>`
 - Use the following database credentials:
@@ -246,7 +332,7 @@ If everything is configured correctly, the tunnel will automatically start every
   - **Password:** `<PASSWORD>`
 
 ---
-## 10. Post-Installation WordPress Checklist (Immediately After Setup)
+## 12. Post-Installation WordPress Checklist (Immediately After Setup)
 
 Once your WordPress site is up and running via the web interface, follow these crucial steps to prepare it for design and production use:
 
@@ -319,7 +405,7 @@ Go to **Plugins → Add New** and install:
 
 ---
 
-## **11. Remove an Existing WordPress Website (Complete Cleanup Guide)**
+## **13. Remove an Existing WordPress Website (Complete Cleanup Guide)**
 
 Use this guide to completely remove an existing WordPress site from your Linux server, including its files, database, users, and NGINX config.
 
