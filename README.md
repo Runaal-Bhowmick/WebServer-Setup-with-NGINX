@@ -87,9 +87,10 @@ upstream <WEBSITE NAME>-php-handler {
 }
 
 server {
-    client_max_body_size 5120M; # ✅ 5GB upload limit
     listen 80;
     server_name <WEBSITE DOMAIN>;
+
+    client_max_body_size 5120M; # ✅ 5GB upload limit
 
     root /var/www/<WEBSITE NAME>/public_html; 
     index index.php index.html;
