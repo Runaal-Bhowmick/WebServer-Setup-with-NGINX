@@ -132,12 +132,7 @@ server {
 }
 ```
 
-### Then run:
-```bash
-sudo ln -s /etc/nginx/sites-available/<WEBSITE NAME> /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl restart nginx     
-```
+
 ## **7. Obtain and Install Cloudflare Origin Certificate (SSL) [RECOMMENDED & Secure]**
 
 Use **one certificate** for your main domain and all first-level subdomains.
@@ -173,6 +168,13 @@ Paste the Private Key here
 
 sudo chmod 600 /etc/ssl/private/<WEBSITE_DOMAIN>/origin.key
 sudo chown root:root /etc/ssl/private/<WEBSITE_DOMAIN>/origin.key
+```
+
+### Then run:
+```bash
+sudo ln -s /etc/nginx/sites-available/<WEBSITE NAME> /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx     
 ```
 
 ✅ Your SSL certificate is now installed and ready to be referenced in your NGINX site configuration!
