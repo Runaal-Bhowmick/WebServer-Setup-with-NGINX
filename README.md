@@ -127,7 +127,7 @@ server {
 
 server {
     listen 80;
-    server_name <WEBSITE_DOMAIN>;
+    server_name <WEBSITE_DOMAIN> www.<WEBSITE_DOMAIN>;
     return 301 https://$host$request_uri;
 }
 ```
@@ -218,7 +218,19 @@ Once saved, Cloudflare will route encrypted HTTPS traffic through your tunnel to
 
 ---
 
-## **9. Increase Max File Upload Limit to 10GB**
+## **9. 🔐 Configure SSL Enforcement on Cloudflare Edge**
+
+Ensure strict HTTPS enforcement from Cloudflare’s edge servers to your origin tunnel:
+
+1. Go to **SSL/TLS → Edge Certificates** for your root domain.  
+2. Toggle and enable:
+   - ✅ **Always Use HTTPS**
+3. Set:
+   - **Minimum TLS Version:** `TLS 1.2`
+
+---
+
+## **10. Increase Max File Upload Limit to 10GB**
 
 To allow large uploads (up to 10 GB), modify PHP configuration.
 
@@ -242,7 +254,7 @@ sudo systemctl reload nginx
 
 ---
 
-## **10. Install and Configure Cloudflared Tunnel [OPTIONAL]**
+## **11. Install and Configure Cloudflared Tunnel [OPTIONAL]**
 
 ### Add Cloudflare GPG key
 ```bash
@@ -326,7 +338,7 @@ If everything is configured correctly, the tunnel will automatically start every
 
 ---
 
-## **11. Complete WordPress Installation via Web Interface**
+## **12. Complete WordPress Installation via Web Interface**
 
 - Go to: `<WEBSITE DOMAIN>`
 - Use the following database credentials:
@@ -334,7 +346,7 @@ If everything is configured correctly, the tunnel will automatically start every
   - **Password:** `<PASSWORD>`
 
 ---
-## 12. Post-Installation WordPress Checklist (Immediately After Setup)
+## 13. Post-Installation WordPress Checklist (Immediately After Setup)
 
 Once your WordPress site is up and running via the web interface, follow these crucial steps to prepare it for design and production use:
 
@@ -407,7 +419,7 @@ Go to **Plugins → Add New** and install:
 
 ---
 
-## **13. Remove an Existing WordPress Website (Complete Cleanup Guide)**
+## **14. Remove an Existing WordPress Website (Complete Cleanup Guide)**
 
 Use this guide to completely remove an existing WordPress site from your Linux server, including its files, database, users, and NGINX config.
 
